@@ -25,4 +25,6 @@ public interface EmployeeService {
     List<Employee> getListWithShops();
 
     void saveOrUpdate(Employee employee);
+
+    void setImg(String img, Integer id);
 }

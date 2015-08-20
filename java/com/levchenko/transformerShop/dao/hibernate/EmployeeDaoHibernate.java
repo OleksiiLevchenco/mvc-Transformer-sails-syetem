@@ -43,6 +43,12 @@ public class EmployeeDaoHibernate implements EmployeeDao {
         return criteria.list();
     }
 
+    @Override
+    public void setImg(String img, Integer id) {
+        Employee employee = (Employee) sessionFactory.getCurrentSession().load(Employee.class, id);
+        employee.setImgUrl(img);
+    }
+
 
     @Override
     @SuppressWarnings("unchecked")

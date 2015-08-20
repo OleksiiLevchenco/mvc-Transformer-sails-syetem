@@ -24,4 +24,5 @@ public interface EmployeeDao {
 
     List<Employee> getListWithShops();
 
+    void setImg(String img, Integer id);
 }

@@ -60,6 +60,13 @@
 
 </springForm:form>
 
+<spring:url var="fileUploadUrl" value="/shops/${shopId}/employees/${employeeAttribute.id}/fileUpload"/>
+
+<form method="post"  enctype="multipart/form-data" action="${fileUploadUrl}">
+    <input type="file" name="file">
+    <input type="submit" value="Submit">
+</form>
+
 <jsp:include page="../fragments/footer.jsp"/>
 </body>
 

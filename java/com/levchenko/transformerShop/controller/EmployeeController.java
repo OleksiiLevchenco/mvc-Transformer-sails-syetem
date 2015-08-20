@@ -4,6 +4,7 @@ import com.levchenko.transformerShop.domain.Employee;
 import com.levchenko.transformerShop.domain.Shop;
 import com.levchenko.transformerShop.service.EmployeeService;
 import com.levchenko.transformerShop.service.ShopService;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +12,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -28,6 +34,8 @@ public class EmployeeController {
     private ShopService shopService;
     @Autowired
     private Validator employeeFormValidator;
+    @Autowired
+    private String imageFolder;
 
     @InitBinder("employee")
     //todo: Если убрать "employee" request processing failed; nested exception is java.lang.IllegalStateException: Invalid target for Validator
@@ -121,6 +129,59 @@ public class EmployeeController {
     }
 
 
+
+    @RequestMapping(value = " /shops/{shopId}/employees/{id}/fileUpload", method = RequestMethod.POST)
+    public String fileUpload(@PathVariable("id") Integer id,
+                         @PathVariable("shopId") Integer shopId,
+                         @RequestParam("file") MultipartFile file,
+                         Model model,
+                         RedirectAttributes redirectAttributes) {
+        if (!file.isEmpty()) {
+
+            try {
+                byte[] bytes = file.getBytes();
+                String ext = FilenameUtils.getExtension(file.getOriginalFilename());
+                StringBuilder imageUrlBuilder = new StringBuilder();
+                imageUrlBuilder
+                        .append(File.separator)
+                        .append("shops")
+                        .append(File.separator)
+                        .append(shopId)
+                        .append(File.separator)
+                        .append("employees");
+
+                File employeesDir = new File( imageFolder + imageUrlBuilder.toString() );
+                if (!employeesDir.exists()) {
+                    employeesDir.mkdirs();
+                }
+
+                StringBuilder fileNameBuilder = new StringBuilder();
+                fileNameBuilder
+                        .append(File.separator)
+                        .append(id)
+                        .append('.')
+                        .append(ext);
+
+                File serveFile = new File(employeesDir.getAbsolutePath() + fileNameBuilder.toString());
+
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serveFile));
+
+                stream.write(bytes);
+                stream.close();
+
+//                System.out.println(imageFolder);
+//                System.out.println("images"+imageUrlBuilder.toString());
+
+                employeeService.setImg("/images" + imageUrlBuilder.append(fileNameBuilder).toString(),id);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        redirectAttributes.addFlashAttribute("css", "success");
+        redirectAttributes.addFlashAttribute("msg", "image is saved");
+        return "redirect:/shops/"+shopId+"/employees/"+id;
+    }
 
 }
 

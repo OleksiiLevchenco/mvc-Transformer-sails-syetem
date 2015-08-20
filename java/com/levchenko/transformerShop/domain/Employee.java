@@ -24,6 +24,10 @@ public class Employee {
     @JoinColumn(name = "shop", nullable = false) //
     private Shop shop;
 
+    @Column(name = "img")
+    private String imgUrl;
+
+
     public Integer getId() {
         return id;
     }
@@ -46,6 +50,14 @@ public class Employee {
 
     public void setShop(Shop shop) {
         this.shop = shop;
+    }
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
     @Override

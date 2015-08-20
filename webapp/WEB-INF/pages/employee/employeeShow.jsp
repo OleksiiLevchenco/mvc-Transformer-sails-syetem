@@ -58,6 +58,8 @@
         </a>
     </div>
 
+    <img src="${employeeAttribute.imgUrl}" height="150"/>
+
 
 </div>
 

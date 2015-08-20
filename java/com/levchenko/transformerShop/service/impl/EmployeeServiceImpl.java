@@ -56,6 +56,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
+    public void setImg(String img, Integer id) {
+        employeeDao.setImg(img, id);
+    }
+
+    @Override
+    @Transactional
     public void remove(Integer id) {
         employeeDao.remove(id);
     }

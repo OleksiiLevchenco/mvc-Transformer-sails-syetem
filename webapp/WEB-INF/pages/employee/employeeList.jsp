@@ -64,6 +64,9 @@
             <td><a href="${deleteUrl}">
                 <button>Delete</button>
             </a></td>
+            <td>
+                <img src="${employee.imgUrl}" height="50"/>
+            </td>
         </tr>
     </c:forEach>
 
