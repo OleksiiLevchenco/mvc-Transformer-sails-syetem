@@ -23,5 +23,9 @@ public class EmployeeFormValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "NotNull.employeeForm.name");
 
+//        if (employee.getName().length() == 0){
+//            errors.rejectValue("name", "NotNull.employeeForm.name");
+//        }
+
     }
 }

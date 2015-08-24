@@ -34,19 +34,19 @@
 </c:choose>
 
 
-<springForm:form modelAttribute="employeeAttribute" method="post" action="${actionUrl}">
-
+<%--<springForm:form modelAttribute="employeeAttribute" method="post" action="${actionUrl}">--%>
+<springForm:form modelAttribute="employeeAttribute" method="post" action="${actionUrl}" enctype="multipart/form-data">
 
     <table>
-
         <c:if test="${not empty employeeAttribute.id}">
             <tr>
                 <td><springForm:label path="id"> id </springForm:label></td>
                 <td>
                     <form:input path="id" readonly="true" />
-                    <%--<form:hidden path="id"/>--%>
+
                 </td>
             </tr>
+            <form:hidden path="imgUrl" />
         </c:if>
 
         <tr>
@@ -54,18 +54,23 @@
             <td><springForm:input path="name"/></td>
             <td><springForm:errors path="name" cssClass="error"/></td>
         </tr>
+
+
+
+        <tr>
+            <th>Image</th>
+            <td>
+                <%--accept="image/jpeg,image/png,image/gif"--%>
+                <input type="file" name="file">
+            </td>
+            <td><springForm:errors path="imgUrl" cssClass="error"/></td>
+        </tr>
+
     </table>
 
     <input type="submit" value="Save">
 
 </springForm:form>
-
-<spring:url var="fileUploadUrl" value="/shops/${shopId}/employees/${employeeAttribute.id}/fileUpload"/>
-
-<form method="post"  enctype="multipart/form-data" action="${fileUploadUrl}">
-    <input type="file" name="file">
-    <input type="submit" value="Submit">
-</form>
 
 <jsp:include page="../fragments/footer.jsp"/>
 </body>

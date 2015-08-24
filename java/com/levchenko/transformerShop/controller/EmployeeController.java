@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -25,6 +24,7 @@ import java.util.List;
 /**
  * @author Alexey Levchenko
  */
+
 @Controller
 public class EmployeeController {
 
@@ -35,14 +35,18 @@ public class EmployeeController {
     @Autowired
     private Validator employeeFormValidator;
     @Autowired
+    private Validator fileUploadValidator;
+
     private String imageFolder;
 
-    @InitBinder("employee")
-    //todo: Если убрать "employee" request processing failed; nested exception is java.lang.IllegalStateException: Invalid target for Validator
-    protected void initBinder(WebDataBinder binder) {
-        binder.setValidator(employeeFormValidator);
-    }
+    private String defaultImageUrl;
 
+//    Для использования аннотации @Validate
+//    @InitBinder("employee")
+//    //todo: Если убрать "employee" request processing failed; nested exception is java.lang.IllegalStateException: Invalid target for Validator
+//    protected void initBinder(WebDataBinder binder) {
+//        binder.setValidator(employeeFormValidator);
+//    }
 
     //    get list
     @RequestMapping(value = {"*/{shopId}/employees"}, method = RequestMethod.GET)
@@ -78,21 +82,32 @@ public class EmployeeController {
     }
 
 
-    //    save or update
+    //    SAVE or UPDATE
     @RequestMapping(value = "*/{shopId}/employees", method = RequestMethod.POST)
     public String addShop(@ModelAttribute("employeeAttribute") Employee employee,
                           BindingResult bindingResult,
                           @PathVariable("shopId") Integer shopId,
+                          @RequestParam("file") MultipartFile file,
                           Model model,
                           final RedirectAttributes redirectAttributes) {
+
         employeeFormValidator.validate(employee, bindingResult);
+
+        boolean newEmployeeWithEmptyImgField = employee.getImgUrl() == null || employee.getImgUrl().equals("");
+        boolean fileIsPresent = file.getSize() != 0;
+
+        if (fileIsPresent) {
+            fileUploadValidator.validate(file, bindingResult);
+        } else {
+            if (newEmployeeWithEmptyImgField) {
+                employee.setImgUrl(defaultImageUrl);
+            }
+        }
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("shopId", shopId);
             return "employee/employeeForm";
         } else {
-            employee.setShop(shopService.getById(shopId));
-
             redirectAttributes.addFlashAttribute("css", "success");
             if (employee.getId() == null) {
                 redirectAttributes.addFlashAttribute("msg", "employee added successful");
@@ -100,11 +115,19 @@ public class EmployeeController {
                 redirectAttributes.addFlashAttribute("msg", "employee updated successful");
             }
 
+            employee.setShop(shopService.getById(shopId));
+            employeeService.saveOrUpdate(employee); // todo: Achtung!!! для получения id пршлось лишний раз сохранять
+
+            if (fileIsPresent){
+                employee.setImgUrl(saveEmployeesPhoto(file, shopId, employee.getId()));
+            }
+
             employeeService.saveOrUpdate(employee);
 
-            return "redirect:/shops/" + shopId + "/employees/"+ employee.getId();
+            return "redirect:/shops/" + shopId + "/employees/" + employee.getId();
         }
     }
+
 
     //    update
     @RequestMapping(value = "/shops/{shopId}/employees/{id}/update", method = RequestMethod.GET)
@@ -121,67 +144,81 @@ public class EmployeeController {
     public String delete(@PathVariable("id") Integer id, Model model,
                          @PathVariable("shopId") Integer shopId,
                          RedirectAttributes redirectAttributes) {
+        removeImageByEmployeeId(id);
         employeeService.remove(id);
         redirectAttributes.addFlashAttribute("css", "success");
         redirectAttributes.addFlashAttribute("msg", "Employee is deleted!");
-        return "redirect:/shops/"+shopId+"/employees";
+        return "redirect:/shops/" + shopId + "/employees";
 
     }
 
 
 
-    @RequestMapping(value = " /shops/{shopId}/employees/{id}/fileUpload", method = RequestMethod.POST)
-    public String fileUpload(@PathVariable("id") Integer id,
-                         @PathVariable("shopId") Integer shopId,
-                         @RequestParam("file") MultipartFile file,
-                         Model model,
-                         RedirectAttributes redirectAttributes) {
+
+    private String saveEmployeesPhoto(MultipartFile file, Integer shopId, Integer employeeId) {
+
         if (!file.isEmpty()) {
+
+            String ext = FilenameUtils.getExtension(file.getOriginalFilename());
+
+            File employeesDir = new File(imageFolder);
+            if (!employeesDir.exists()) {
+                employeesDir.mkdirs();
+            }
+
+            StringBuilder fileNameBuilder = new StringBuilder();
+            fileNameBuilder
+                    .append(File.separator)
+                    .append(employeeId)
+                    .append('.')
+                    .append(ext);
 
             try {
                 byte[] bytes = file.getBytes();
-                String ext = FilenameUtils.getExtension(file.getOriginalFilename());
-                StringBuilder imageUrlBuilder = new StringBuilder();
-                imageUrlBuilder
-                        .append(File.separator)
-                        .append("shops")
-                        .append(File.separator)
-                        .append(shopId)
-                        .append(File.separator)
-                        .append("employees");
-
-                File employeesDir = new File( imageFolder + imageUrlBuilder.toString() );
-                if (!employeesDir.exists()) {
-                    employeesDir.mkdirs();
-                }
-
-                StringBuilder fileNameBuilder = new StringBuilder();
-                fileNameBuilder
-                        .append(File.separator)
-                        .append(id)
-                        .append('.')
-                        .append(ext);
 
                 File serveFile = new File(employeesDir.getAbsolutePath() + fileNameBuilder.toString());
-
                 BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serveFile));
-
                 stream.write(bytes);
                 stream.close();
 
-//                System.out.println(imageFolder);
-//                System.out.println("images"+imageUrlBuilder.toString());
-
-                employeeService.setImg("/images" + imageUrlBuilder.append(fileNameBuilder).toString(),id);
-
             } catch (IOException e) {
                 e.printStackTrace();
+                return "-1";
             }
+
+            String imageUrl = ("/images" + fileNameBuilder.toString()).replaceAll("[\\\\]", "/");
+            employeeService.setImg(imageUrl, employeeId);
+
+            return imageUrl;
         }
-        redirectAttributes.addFlashAttribute("css", "success");
-        redirectAttributes.addFlashAttribute("msg", "image is saved");
-        return "redirect:/shops/"+shopId+"/employees/"+id;
+
+        return"-1";
     }
 
+    private boolean removeImageByEmployeeId(Integer id) {
+        final String imgUrl = employeeService.getById(id).getImgUrl();
+        if ( ! imgUrl.equals(defaultImageUrl)) {
+            File file = new File(imageFolder + imgUrl.replace("/images", ""));
+            return file.delete();
+        } else return true;
+    }
+
+
+// getters and setters
+    public String getImageFolder() {
+        return imageFolder;
+    }
+
+    public void setImageFolder(String imageFolder) {
+        this.imageFolder = imageFolder;
+    }
+
+    public String getDefaultImageUrl() {
+        return defaultImageUrl;
+    }
+
+    public void setDefaultImageUrl(String defaultImageUrl) {
+        this.defaultImageUrl = defaultImageUrl;
+    }
 }
 

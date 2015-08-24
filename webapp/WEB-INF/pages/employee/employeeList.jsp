@@ -38,7 +38,7 @@
         <c:if test="${empty shopId}">
             <th>Shop</th>
         </c:if>
-        <th colspan="3"></th>
+        <th colspan="4"></th>
     </tr>
     </thead>
     <tbody>

@@ -23,15 +23,20 @@
 <h1>Employee details</h1>
 
 <table style="margin-left: 15px">
+
     <tr class="oddLine">
         <th>ID</th>
         <td>${employeeAttribute.id}</td>
+        <td rowspan="2"><img src="${employeeAttribute.imgUrl} " height="150"/></td>
     </tr>
     <tr class="evenLine">
         <th>Name</th>
         <td>${employeeAttribute.name}</td>
     </tr>
+
 </table>
+
+
 
 <spring:url var="updateUrl" value="/shops/${shopId}/employees/${employeeAttribute.id}/update" />
 <spring:url var="deleteUrl" value="/shops/${shopId}/employees/${employeeAttribute.id}/delete" />
@@ -58,7 +63,7 @@
         </a>
     </div>
 
-    <img src="${employeeAttribute.imgUrl}" height="150"/>
+
 
 
 </div>
