@@ -10,11 +10,24 @@
     font-family: 'Arial', Arial, Helvetica, sans-serif; /* Гарнитура текста */
     font-size: 110%;
 }
+
+.warning {
+    color: #d8b075;
+    background-color: #f3ffaa;
+    font-family: 'Arial', Arial, Helvetica, sans-serif; /* Гарнитура текста */
+    font-size: 110%;
+}
 .oddLine {
     background-color: #a1c2d1;
 }
 .evenLine {
     background-color: #cce1ee;
+}
+.shopName {
+    font-weight: bold;
+    color:#2F4F4F;
+    font-size: 30px;
+    text-decoration: none;
 }
 
 thead {

@@ -2,11 +2,13 @@ package com.levchenko.transformerShop.service.impl;
 
 
 import com.levchenko.transformerShop.dao.EmployeeDao;
+import com.levchenko.transformerShop.dao.hibernate.ImageDao;
 import com.levchenko.transformerShop.domain.Employee;
 import com.levchenko.transformerShop.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,8 +21,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeDao employeeDao;
 
+    @Autowired
+    private ImageDao imageDao;
+
     @Override
     @Transactional
+
     public void add(Employee employee) {
         employeeDao.save(employee);
     }
@@ -34,7 +40,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public List<Employee> getListByShopId(Integer shopId) {
-        return  employeeDao.getListByShopId(shopId);
+        return employeeDao.getListByShopId(shopId);
     }
 
     @Override
@@ -46,23 +52,34 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public void saveOrUpdate(Employee employee) {
-        if (employee.getId() != null){
+        if (employee.getId() != null) {
             employeeDao.update(employee);
         } else {
             employeeDao.save(employee);
         }
-
     }
 
     @Override
     @Transactional
-    public void setImg(String img, Integer id) {
-        employeeDao.setImg(img, id);
+    public void setImgUrl(String img, Integer id) {
+        employeeDao.setImgUrl(img, id);
+    }
+
+    @Override
+    @Transactional
+    public String saveImage(MultipartFile file, Integer employeeId) {
+        return imageDao.saveImage(file, employeeId);
+    }
+
+    @Override
+    public boolean removeImage(Integer id) {
+        return imageDao.removeImage(id);
     }
 
     @Override
     @Transactional
     public void remove(Integer id) {
+        removeImage(id);
         employeeDao.remove(id);
     }
 
@@ -77,6 +94,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee getById(Integer id) {
         return employeeDao.getById(id);
     }
+
 
 }
 

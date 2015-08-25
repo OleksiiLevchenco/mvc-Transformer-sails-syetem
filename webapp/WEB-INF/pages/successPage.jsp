@@ -17,6 +17,12 @@
 
 <body>
 
+<c:if test="${not empty msg}">
+  <div class="${css}">
+    <strong>${msg}</strong>
+  </div>
+</c:if>
+
 <c:choose>
   <c:when test="${!null == returnUrl}">
     <c:url var="returnUrl" value="${returnUrl}"/>

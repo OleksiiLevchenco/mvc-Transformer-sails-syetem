@@ -3,6 +3,7 @@ package com.levchenko.transformerShop.dao.hibernate;
 
 import com.levchenko.transformerShop.dao.EmployeeDao;
 import com.levchenko.transformerShop.domain.Employee;
+import org.apache.commons.io.FilenameUtils;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
@@ -10,7 +11,12 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -44,7 +50,7 @@ public class EmployeeDaoHibernate implements EmployeeDao {
     }
 
     @Override
-    public void setImg(String img, Integer id) {
+    public void setImgUrl(String img, Integer id) {
         Employee employee = (Employee) sessionFactory.getCurrentSession().load(Employee.class, id);
         employee.setImgUrl(img);
     }
@@ -78,7 +84,6 @@ public class EmployeeDaoHibernate implements EmployeeDao {
     public void update(Employee employee) {
         sessionFactory.getCurrentSession().update(employee);
     }
-
 
 
 }

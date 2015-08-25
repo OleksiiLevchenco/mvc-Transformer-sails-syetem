@@ -1,6 +1,7 @@
 package com.levchenko.transformerShop.service.impl;
 
 
+import com.levchenko.transformerShop.service.impl.exceptions.MyException;
 import com.levchenko.transformerShop.dao.ShopDao;
 import com.levchenko.transformerShop.domain.Employee;
 import com.levchenko.transformerShop.domain.Shop;
@@ -45,7 +46,16 @@ public class ShopServiceImpl implements ShopService {
         return  shopDao.getEmployeesListByShopId(id);
     }
 
-
+    @Override @Transactional
+    public void delete(Integer id) {
+        final List<Employee> employees = shopDao.getEmployeesListByShopId(id);
+        if (employees.size() <= 0) {
+            shopDao.delete(id);
+        } else {
+            throw new MyException(id, "Exception through FlashMap Нельзя удалять магазин с сотрудниками");
+//            throw new DeletingShopWithEmployeesException(id, "You can not delete the store, first delete all employees of the shop.");
+        }
+    }
 
 
 
@@ -58,11 +68,7 @@ public class ShopServiceImpl implements ShopService {
         shopDao.update(shop);
     }
 
-    @Override
-    @Transactional
-    public void delete(Integer id) {
-        shopDao.delete(id);
-    }
+
 
     @Override
     @Transactional

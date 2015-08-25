@@ -2,6 +2,7 @@ package com.levchenko.transformerShop.dao;
 
 
 import com.levchenko.transformerShop.domain.Employee;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,5 +25,6 @@ public interface EmployeeDao {
 
     List<Employee> getListWithShops();
 
-    void setImg(String img, Integer id);
+    void setImgUrl(String img, Integer id);
+
 }

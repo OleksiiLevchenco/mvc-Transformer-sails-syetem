@@ -12,6 +12,9 @@
 <body>
 <jsp:include page="../fragments/header.jsp"/>
 
+<c:url var="addUrl" value="employees/add"/>
+<c:url var="returnUrl" value="/shops/${shopId}"/>
+
 <c:if test="${not empty msg}">
     <div class="${css}">
         <strong>${msg}</strong>
@@ -21,7 +24,11 @@
 <c:choose>
     <c:when test="${!empty shopName}">
         <H2>
-            <span style="font-weight: bold; color:#2F4F4F ">${shopName}</span>
+            <a href="${returnUrl}" style="text-decoration: none">
+                <span class="shopName">
+                    ${shopName}
+                </span>
+            </a>
             shop employees list
         </H2>
     </c:when>
@@ -74,8 +81,6 @@
 
 </table>
 
-<c:url var="addUrl" value="employees/add"/>
-<c:url var="returnUrl" value="/shops/${shopId}"/>
 
 <a href="${addUrl}">
     <button style="margin-top: 10px">Add new employee</button>

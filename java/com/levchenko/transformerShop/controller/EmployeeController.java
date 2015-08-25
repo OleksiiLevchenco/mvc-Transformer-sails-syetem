@@ -4,7 +4,6 @@ import com.levchenko.transformerShop.domain.Employee;
 import com.levchenko.transformerShop.domain.Shop;
 import com.levchenko.transformerShop.service.EmployeeService;
 import com.levchenko.transformerShop.service.ShopService;
-import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+
 import java.util.List;
 
 /**
@@ -36,9 +32,7 @@ public class EmployeeController {
     private Validator employeeFormValidator;
     @Autowired
     private Validator fileUploadValidator;
-
-    private String imageFolder;
-
+    @Autowired
     private String defaultImageUrl;
 
 //    Для использования аннотации @Validate
@@ -93,15 +87,13 @@ public class EmployeeController {
 
         employeeFormValidator.validate(employee, bindingResult);
 
-        boolean newEmployeeWithEmptyImgField = employee.getImgUrl() == null || employee.getImgUrl().equals("");
+        boolean newEmployeeWithoutImg = employee.getImgUrl() == null || employee.getImgUrl().equals("");
         boolean fileIsPresent = file.getSize() != 0;
 
         if (fileIsPresent) {
             fileUploadValidator.validate(file, bindingResult);
-        } else {
-            if (newEmployeeWithEmptyImgField) {
-                employee.setImgUrl(defaultImageUrl);
-            }
+        } else if (newEmployeeWithoutImg) {
+            employee.setImgUrl(defaultImageUrl);
         }
 
         if (bindingResult.hasErrors()) {
@@ -116,12 +108,10 @@ public class EmployeeController {
             }
 
             employee.setShop(shopService.getById(shopId));
-            employeeService.saveOrUpdate(employee); // todo: Achtung!!! для получения id пршлось лишний раз сохранять
-
+            employeeService.saveOrUpdate(employee); // todo: Achtung!!! для получения id пришлось лишний раз сохранять
             if (fileIsPresent){
-                employee.setImgUrl(saveEmployeesPhoto(file, shopId, employee.getId()));
+                employee.setImgUrl(employeeService.saveImage(file, employee.getId()));
             }
-
             employeeService.saveOrUpdate(employee);
 
             return "redirect:/shops/" + shopId + "/employees/" + employee.getId();
@@ -144,7 +134,6 @@ public class EmployeeController {
     public String delete(@PathVariable("id") Integer id, Model model,
                          @PathVariable("shopId") Integer shopId,
                          RedirectAttributes redirectAttributes) {
-        removeImageByEmployeeId(id);
         employeeService.remove(id);
         redirectAttributes.addFlashAttribute("css", "success");
         redirectAttributes.addFlashAttribute("msg", "Employee is deleted!");
@@ -152,73 +141,5 @@ public class EmployeeController {
 
     }
 
-
-
-
-    private String saveEmployeesPhoto(MultipartFile file, Integer shopId, Integer employeeId) {
-
-        if (!file.isEmpty()) {
-
-            String ext = FilenameUtils.getExtension(file.getOriginalFilename());
-
-            File employeesDir = new File(imageFolder);
-            if (!employeesDir.exists()) {
-                employeesDir.mkdirs();
-            }
-
-            StringBuilder fileNameBuilder = new StringBuilder();
-            fileNameBuilder
-                    .append(File.separator)
-                    .append(employeeId)
-                    .append('.')
-                    .append(ext);
-
-            try {
-                byte[] bytes = file.getBytes();
-
-                File serveFile = new File(employeesDir.getAbsolutePath() + fileNameBuilder.toString());
-                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serveFile));
-                stream.write(bytes);
-                stream.close();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "-1";
-            }
-
-            String imageUrl = ("/images" + fileNameBuilder.toString()).replaceAll("[\\\\]", "/");
-            employeeService.setImg(imageUrl, employeeId);
-
-            return imageUrl;
-        }
-
-        return"-1";
-    }
-
-    private boolean removeImageByEmployeeId(Integer id) {
-        final String imgUrl = employeeService.getById(id).getImgUrl();
-        if ( ! imgUrl.equals(defaultImageUrl)) {
-            File file = new File(imageFolder + imgUrl.replace("/images", ""));
-            return file.delete();
-        } else return true;
-    }
-
-
-// getters and setters
-    public String getImageFolder() {
-        return imageFolder;
-    }
-
-    public void setImageFolder(String imageFolder) {
-        this.imageFolder = imageFolder;
-    }
-
-    public String getDefaultImageUrl() {
-        return defaultImageUrl;
-    }
-
-    public void setDefaultImageUrl(String defaultImageUrl) {
-        this.defaultImageUrl = defaultImageUrl;
-    }
 }
 
