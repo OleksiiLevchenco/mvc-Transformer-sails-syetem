@@ -3,9 +3,12 @@
 <html>
 <head>
     <title></title>
+
     <style>
         table {
-            background-color: #ffeeAA
+            margin: 50px;
+            border-spacing: 5px 5px;
+            border: none;
         }
 
         tr{
@@ -21,9 +24,20 @@
         }
 
         td{
+           padding: 25px;
+        }
+
+        .odd {
+            background-color: #4ed865;
+        }
+
+        .even {
+            background-color: #39b4d8;
 
         }
+
     </style>
+
 </head>
 <body>
 
@@ -31,31 +45,31 @@
 <h1>Start</h1>
 <table>
     <!--Заглавная-->
-    <tr>
+    <tr class="odd">
         <td>text text text</td>
         <td>text 2</td>
     </tr>
 
     <!--1-->
-    <tr>
+    <tr class="even">
         <th >text text text</th>
         <td>text 2</td>
     </tr>
 
     <!--2-->
-    <tr>
+    <tr class="odd">
         <th>text text text</th>
         <td>text 2</td>
         <td>text 2</td>
     </tr>
 
     <!--3-->
-    <tr>
+    <tr class="even">
         <th>text text text</th>
         <td>text 2</td>
     </tr>
 
-    <div style="width: 500px; background-color: #ccccff; margin-left: 400px; padding:  "></div>
+    <div style="width: 500px; background-color: #ccccff; margin-left: 400px;"></div>
 </table>
 
 </body>

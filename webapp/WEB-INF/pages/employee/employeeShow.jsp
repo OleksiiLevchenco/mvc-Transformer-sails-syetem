@@ -59,7 +59,7 @@
 
     <div style="margin-left: 15px; display: inline;">
         <a href="${employeesUrl}">
-            <button>Show employees list</button>
+            <button>Back</button>
         </a>
     </div>
 

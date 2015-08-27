@@ -22,6 +22,7 @@ import java.util.List;
  */
 
 @Controller
+@RequestMapping(value = "/shops/{shopId}/")
 public class EmployeeController {
 
     @Autowired
@@ -43,8 +44,8 @@ public class EmployeeController {
 //    }
 
     //    get list
-    @RequestMapping(value = {"*/{shopId}/employees"}, method = RequestMethod.GET)
-    public String getShopsWithShops(Model model, @PathVariable("shopId") Integer shopId) {
+    @RequestMapping(value = {"employees"}, method = RequestMethod.GET)
+    public String getEmployeesWithShops(Model model, @PathVariable("shopId") Integer shopId) {
         List<Employee> employees = employeeService.getListByShopId(shopId);
         String shopName = shopService.getById(shopId).getName();
         model.addAttribute("employees", employees);
@@ -54,7 +55,7 @@ public class EmployeeController {
     }
 
     //  show by id
-    @RequestMapping(value = {"*/{shopId}/employees/{id}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"employees/{id}"}, method = RequestMethod.GET)
     public String getShowById(Model model, @PathVariable("shopId") Integer shopId, @PathVariable("id") Integer id) {
 
         Employee employee = employeeService.getById(id);
@@ -67,7 +68,7 @@ public class EmployeeController {
     }
 
     //    new
-    @RequestMapping(value = {"*/{shopId}/employees/add"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"employees/add"}, method = RequestMethod.GET)
     public String getNew(Model model, @PathVariable("shopId") Integer shopId) {
         Employee employee = new Employee();
         employee.setShop(shopService.getById(shopId));
@@ -77,7 +78,7 @@ public class EmployeeController {
 
 
     //    SAVE or UPDATE
-    @RequestMapping(value = "*/{shopId}/employees", method = RequestMethod.POST)
+    @RequestMapping(value = "employees", method = RequestMethod.POST)
     public String addShop(@ModelAttribute("employeeAttribute") Employee employee,
                           BindingResult bindingResult,
                           @PathVariable("shopId") Integer shopId,
@@ -120,7 +121,7 @@ public class EmployeeController {
 
 
     //    update
-    @RequestMapping(value = "/shops/{shopId}/employees/{id}/update", method = RequestMethod.GET)
+    @RequestMapping(value = "employees/{id}/update", method = RequestMethod.GET)
     public String getUpdate(@PathVariable("id") Integer id, @PathVariable("shopId") Integer shopId, Model model) {
 
         model.addAttribute("employeeAttribute", employeeService.getById(id));
@@ -130,7 +131,7 @@ public class EmployeeController {
 
 
     //    delete
-    @RequestMapping(value = "/shops/{shopId}/employees/{id}/delete", method = RequestMethod.GET)
+    @RequestMapping(value = "employees/{id}/delete", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Integer id, Model model,
                          @PathVariable("shopId") Integer shopId,
                          RedirectAttributes redirectAttributes) {

@@ -21,7 +21,6 @@ import javax.validation.Valid;
  * @author Alexey Levchenko
  */
 @Controller
-//@RequestMapping(value = {"/shop"})
 public class ShopController {
 
     @Autowired

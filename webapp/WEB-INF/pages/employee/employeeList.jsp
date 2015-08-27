@@ -86,7 +86,7 @@
     <button style="margin-top: 10px">Add new employee</button>
 </a>
 <a href="${returnUrl}">
-    <button style="margin-top: 10px; margin-left: 10px">Return to shop details</button>
+    <button style="margin-top: 10px; margin-left: 10px">Back</button>
 </a>
 
 

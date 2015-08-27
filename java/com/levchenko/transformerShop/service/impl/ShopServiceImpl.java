@@ -27,6 +27,7 @@ public class ShopServiceImpl implements ShopService {
         return shopDao.getList();
     }
 
+
     @Override @Transactional
     public void saveOrUpdate(Shop shop) {
         if (shop.getId()==null) {
@@ -41,10 +42,12 @@ public class ShopServiceImpl implements ShopService {
         return shopDao.getById(id);
     }
 
+
     @Override @Transactional
     public List<Employee> getEmployeesListByShopId(Integer id) {
         return  shopDao.getEmployeesListByShopId(id);
     }
+
 
     @Override @Transactional
     public void delete(Integer id) {
