@@ -44,3 +44,5 @@ Temporary Items
 
 # Created by .ignore support plugin (hsz.mobi)
 src/main/target
+
+webapp/WEB-INF/pages/employee/js_test.html
