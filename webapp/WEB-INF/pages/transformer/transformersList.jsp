@@ -10,9 +10,18 @@
 
 <body>
 
-<c:url var="addUrl" value="/transformer/get?pageType=add" />
-<table style="border: 3px solid; width: 500px; text-align: center">
-    <thead style="background: #ccf">
+<c:if test="${not empty msg}">
+    <div class="${css}">
+        <strong>${msg}</strong>
+    </div>
+</c:if>
+
+
+<jsp:include page="../fragments/header.jsp"/>
+
+<c:url var="addUrl" value="/transformers/add"/>
+<table>
+    <thead>
     <tr>
         <th>id</th>
         <th>Input voltage</th>
@@ -20,15 +29,16 @@
         <th>Output current</th>
         <th>Mass</th>
         <th>Price</th>
-        <th colspan="2"></th>
+        <th colspan="3"></th>
     </tr>
     </thead>
     <tbody>
     <%--@elvariable id="transformers" type="nom.alekseyLevchenko.transformersManager.domain.Transformer"--%>
 
     <c:forEach items="${transformers}" var="transformer" varStatus="varStatus">
-        <c:url var="editUrl" value="/transformer/get?pageType=edit&id=${transformer.id}" />
-        <c:url var="deleteUrl" value="/transformer/get?id=${transformer.id}&pageType=delete" />
+        <c:url var="editUrl" value="/transformers/${transformer.id}/update"/>
+        <c:url var="deleteUrl" value="/transformers/${transformer.id}/delete"/>
+        <c:url var="show" value="/transformers/${transformer.id}"/>
 
         <tr class="${varStatus.index % 2 == 0 ? 'oddLine' : 'evenLine'}">
             <td>${transformer.id}</td>
@@ -37,23 +47,36 @@
             <td>${transformer.outputCurrent}</td>
             <td>${transformer.mass}</td>
             <td>${transformer.price}</td>
-            <td><a href="${editUrl}"> <button>Edit</button> </a></td>
-            <td><a href="${deleteUrl}"> <button>Delete</button> </a></td>
+
+            <td class="button-cell">
+                <form action="${show}" method="get">
+                    <button>Show</button>
+                </form>
+            </td>
+            <td class="button-cell">
+                <form action="${editUrl}" method="get">
+                    <button>Edit</button>
+                </form>
+            </td>
+            <td class="button-cell">
+                <form action="${deleteUrl}" method="get">
+                    <button>Delete</button>
+                </form>
+            </td>
+
         </tr>
     </c:forEach>
     </tbody>
 
 </table>
+<p>
 
-<a href="${addUrl}">
+<form action="${addUrl}" method="get">
     <button>Add</button>
-</a>
+</form>
+</p>
 
-<br>
-<a href="${pageContext.request.contextPath}/shop/list">shop list</a>
-
-<br>
-<a href="${pageContext.request.contextPath}/employee/listWithShops">employee list</a>
+<jsp:include page="../fragments/footer.jsp"/>
 
 </body>
 

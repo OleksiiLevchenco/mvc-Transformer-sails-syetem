@@ -11,13 +11,9 @@ import java.util.List;
  */
 public interface ShopService {
 
-    public void add(Shop shop);
-
     public List<Shop> getList();
 
     public void delete(Integer id);
-
-    public void update(Shop shop);
 
     public Shop getById(Integer id);
 

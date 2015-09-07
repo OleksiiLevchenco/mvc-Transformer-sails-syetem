@@ -7,14 +7,14 @@
 <head>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link href="<c:url value="${pageContext.request.contextPath}/resources/css/style.css" />" rel="stylesheet">
+    <%--<link href="<c:url value="${pageContext.request.contextPath}/resources/css/style.css" />" rel="stylesheet">--%>
     <title>Shops page</title>
 </head>
 
 <body>
 <jsp:include page="../fragments/header.jsp" />
 
-<h1>All shops</h1><br>
+<h1>All shops</h1>
 
 <c:if test="${not empty msg}">
     <div class="${css}">
@@ -24,7 +24,7 @@
 
 <c:url var="addUrl" value="/shops/add" />
 
-<div >
+
 <table>
     <thead>
     <tr>
@@ -49,12 +49,10 @@
             <td>${shop.tel}</td>
             <td>${shop.workingTime}</td>
 
-            <td style="width: auto; padding: 0;">
-
-                    <a href="${showUrl}" style="width: inherit; height: inherit">
-                        <button>Details</button>
-                    </a>
-
+            <td class="button-cell">
+                <form action="${showUrl}" method="get">
+                    <button>Details</button>
+                </form>
             </td>
 
         </tr>
@@ -62,12 +60,10 @@
     </tbody>
 
 </table>
-</div>
-<div style="margin-top: 10px; ">
-    <a href="${addUrl}">
-        <button style="margin-top: 10px; width: 150px">Add new shop</button>
-    </a>
-</div>
+
+<form action="${addUrl}" method="get">
+    <button>Add</button>
+</form>
 
 
 <jsp:include page="../fragments/footer.jsp" />

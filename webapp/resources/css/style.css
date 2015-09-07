@@ -33,37 +33,62 @@
 thead {
     background: #ccf
 }
+thead tr{
+    background-color: #DFDFDF;
+}
 
 table{
-
     border-style:none;
     font-family: Arial, Helvetica, sans-serif;
+    width: 100%;
 }
 
 tr{
-    background-color: #DFDFDF;
     height: 30px;
     text-align: left;
-    padding-left: 20px;
     vertical-align: middle;
     font-size: 18px;
-
 }
 
-th{
-    padding-left: 10px;
-    width:170px;
-    vertical-align: middle;
-    margin-left: 20px;
+/*th{*/
+    /*padding-left: 10px;*/
+    /*width:170px;*/
+    /*vertical-align: middle;*/
+    /*margin-left: 20px;*/
 
-}
+/*}*/
 
-td{
-    padding-left: 10px;
-    width: 170px;
-}
+/*td{*/
+    /*padding-left: 10px;*/
+    /*width: 170px;*/
+/*}*/
 
 h1{
     font-family: Helvetica, Georgia, Verdana, Arial, sans-serif;
+}
+
+.icon {
+    height: 20px;
+}
+button{
+    margin: 10px;
+}
+
+.button-group{
+    margin: 15px;
+}
+
+.button-group a {
+    text-decoration: none;
+    color: inherit;
+}
+.button-cell {
+    width: auto;
+}
+.button-cell button{
+    width: 100%;
+    margin: 0;
+    padding-left: 12px;
+    padding-right: 12px;
 }
 

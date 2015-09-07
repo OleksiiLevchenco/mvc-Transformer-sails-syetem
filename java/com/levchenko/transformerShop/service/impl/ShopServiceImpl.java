@@ -23,34 +23,39 @@ public class ShopServiceImpl implements ShopService {
     private ShopDao shopDao;
 
 
-    @Override @Transactional
+    @Override
+    @Transactional
     public List<Shop> getList() {
         return shopDao.getList();
     }
 
 
-    @Override @Transactional
+    @Override
+    @Transactional
     public void saveOrUpdate(Shop shop) {
-        if (shop.getId()==null) {
+        if (shop.getId() == null) {
             shopDao.save(shop);
         } else {
             shopDao.update(shop);
         }
     }
 
-    @Override @Transactional
+    @Override
+    @Transactional
     public Shop getById(Integer id) {
         return shopDao.getById(id);
     }
 
 
-    @Override @Transactional
+    @Override
+    @Transactional
     public List<Employee> getEmployeesListByShopId(Integer id) {
-        return  shopDao.getEmployeesListByShopId(id);
+        return shopDao.getEmployeesListByShopId(id);
     }
 
 
-    @Override @Transactional
+    @Override
+    @Transactional
     public void delete(Integer id) {
         final List<Employee> employees = shopDao.getEmployeesListByShopId(id);
         if (employees.size() <= 0) {
@@ -62,23 +67,8 @@ public class ShopServiceImpl implements ShopService {
     }
 
 
-
-//_______Trash____________________________________
+//_______Trash__Rudiments__________________________________
 //
-
-    @Override
-    @Transactional
-    public void update(Shop shop) {
-        shopDao.update(shop);
-    }
-
-
-
-    @Override
-    @Transactional
-    public void add(Shop shop) {
-        shopDao.save(shop);
-    }
 
     @Override
     @Transactional

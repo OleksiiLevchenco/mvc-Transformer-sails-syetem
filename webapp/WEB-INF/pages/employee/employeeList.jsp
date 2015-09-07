@@ -37,8 +37,8 @@
 
 
 
-<table style="border: 3px solid; text-align: center">
-    <thead style="background: #ccf">
+<table>
+    <thead>
     <tr>
         <th>id</th>
         <th>Name</th>
@@ -48,6 +48,7 @@
         <th colspan="4"></th>
     </tr>
     </thead>
+
     <tbody>
     <%--@elvariable id="shops" type="nom.alekseyLevchenko.transformersManager.domain.Shop"--%>
 
@@ -62,17 +63,17 @@
             <c:if test="${empty shopId}">
                 <td>${employee.shop.id}</td>
             </c:if>
-            <td><a href="${showUtl}">
+            <td class="button-cell"><a href="${showUtl}">
                 <button>Show details</button>
             </a></td>
-            <td><a href="${editUrl}">
+            <td class="button-cell"><a href="${editUrl}">
                 <button>Edit</button>
             </a></td>
-            <td><a href="${deleteUrl}">
+            <td class="button-cell"><a href="${deleteUrl}">
                 <button>Delete</button>
             </a></td>
             <td>
-                <img src="${employee.imgUrl}" height="50"/>
+                <img src="${employee.imgUrl}" height="50" alt="employee ${employee.name}"/>
             </td>
         </tr>
     </c:forEach>

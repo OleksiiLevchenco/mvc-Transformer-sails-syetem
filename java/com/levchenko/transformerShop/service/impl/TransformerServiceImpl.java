@@ -19,11 +19,6 @@ public class TransformerServiceImpl implements TransformerService {
     @Autowired
     private TransformerDao transformerDao;
 
-    @Override
-    @Transactional
-    public void add(Transformer transformer) {
-        transformerDao.add(transformer);
-    }
 
     @Override
     @Transactional
@@ -33,19 +28,24 @@ public class TransformerServiceImpl implements TransformerService {
 
     @Override
     @Transactional
-    public void remove(Integer id) {
+    public void delete(Integer id) {
         transformerDao.remove(id);
     }
 
-    @Override
-    @Transactional
-    public void update(Transformer transformer) {
-        transformerDao.update(transformer);
-    }
 
     @Override
     @Transactional
     public Transformer getById(Integer id) {
         return transformerDao.getById(id);
+    }
+
+    @Override
+    @Transactional
+    public void saveOrUpdate(Transformer transformer) {
+        if (transformer.getId() != null){
+            transformerDao.update(transformer);
+        } else {
+            transformerDao.add(transformer);
+        }
     }
 }

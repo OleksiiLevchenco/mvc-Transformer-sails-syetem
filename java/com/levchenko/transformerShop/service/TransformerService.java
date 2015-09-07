@@ -10,13 +10,12 @@ import java.util.List;
  */
 public interface TransformerService {
 
-    public void add(Transformer transformer);
 
     public List<Transformer> getList();
 
-    public void remove(Integer id);
-
-    public void update(Transformer transformer);
+    public void delete(Integer id);
 
     public Transformer getById(Integer id);
+
+    void saveOrUpdate(Transformer transformer);
 }
