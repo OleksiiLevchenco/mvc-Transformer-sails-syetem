@@ -5,7 +5,7 @@
 
 	<hr>
 	<footer>
-		<p>&copy; Copypast.com 2015</p>
+		<p>&copy; BlaBla.com 2015</p>
 	</footer>
 </div>
 

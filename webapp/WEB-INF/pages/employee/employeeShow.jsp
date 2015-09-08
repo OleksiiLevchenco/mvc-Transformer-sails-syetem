@@ -8,7 +8,6 @@
 <html>
 <head>
     <title>Employee</title>
-    <link href="<c:url value="${pageContext.request.contextPath}/resources/css/style.css" />" rel="stylesheet">
 </head>
 
 <jsp:include page="../fragments/header.jsp" />
@@ -22,7 +21,7 @@
 
 <h1>Employee details</h1>
 
-<table style="margin-left: 15px">
+<table>
 
     <tr class="oddLine">
         <th>ID</th>
@@ -38,9 +37,9 @@
 
 
 
-<spring:url var="updateUrl" value="/shops/${shopId}/employees/${employeeAttribute.id}/update" />
-<spring:url var="deleteUrl" value="/shops/${shopId}/employees/${employeeAttribute.id}/delete" />
-<c:url var="employeesUrl" value="/shops/${shopId}/employees" />
+<spring:url var="updateUrl" value="/shops/${shop.id}/employees/${employeeAttribute.id}/update" />
+<spring:url var="deleteUrl" value="/shops/${shop.id}/employees/${employeeAttribute.id}/delete" />
+<c:url var="employeesUrl" value="/shops/${shop.id}/employees" />
 
 
 <div style="margin-top: 15px">

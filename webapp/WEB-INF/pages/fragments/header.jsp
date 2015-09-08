@@ -37,12 +37,4 @@
     </nav>
 
 
-<%--<nav>--%>
-
-    <%--<a href="${urlHome}">Tss</a> |--%>
-    <%--<a href="${shopListUrl}">All shops</a> |--%>
-    <%--<a href="${transformerListUrl}">Transformers catalog</a>--%>
-
-<%--</nav>--%>
-
 <hr>

@@ -13,7 +13,7 @@
 <jsp:include page="../fragments/header.jsp"/>
 
 <c:url var="addUrl" value="employees/add"/>
-<c:url var="returnUrl" value="/shops/${shopId}"/>
+<c:url var="returnUrl" value="/shops/${shop.id}"/>
 
 <c:if test="${not empty msg}">
     <div class="${css}">
@@ -22,11 +22,11 @@
 </c:if>
 
 <c:choose>
-    <c:when test="${!empty shopName}">
+    <c:when test="${!empty shop.name}">
         <H2>
             <a href="${returnUrl}" style="text-decoration: none">
                 <span class="shopName">
-                    ${shopName}
+                    ${shop.name}
                 </span>
             </a>
             shop employees list
@@ -42,7 +42,7 @@
     <tr>
         <th>id</th>
         <th>Name</th>
-        <c:if test="${empty shopId}">
+        <c:if test="${empty shop.id}">
             <th>Shop</th>
         </c:if>
         <th colspan="4"></th>
@@ -60,7 +60,7 @@
         <tr class="${varStatus.index % 2 == 0 ? 'oddLine' : 'evenLine'}">
             <td>${employee.id}</td>
             <td>${employee.name}</td>
-            <c:if test="${empty shopId}">
+            <c:if test="${empty shop.id}">
                 <td>${employee.shop.id}</td>
             </c:if>
             <td class="button-column"><a href="${showUtl}">
