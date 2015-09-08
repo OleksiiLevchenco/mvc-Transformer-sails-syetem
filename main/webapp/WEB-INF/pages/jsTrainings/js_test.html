@@ -1,0 +1,357 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+
+    <!--&lt;!&ndash; подключаем стили Mocha, для отображения результатов &ndash;&gt;-->
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.css">-->
+    <!--&lt;!&ndash; подключаем библиотеку Mocha &ndash;&gt;-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/2.1.0/mocha.js"></script>-->
+    <!--&lt;!&ndash; настраиваем Mocha: предстоит BDD-тестирование &ndash;&gt;-->
+    <!--<script>-->
+        <!--mocha.setup('bdd');-->
+    <!--</script>-->
+
+    <!--&lt;!&ndash; подключаем chai &ndash;&gt;-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/chai/2.0.0/chai.js"></script>-->
+    <!--&lt;!&ndash; в chai есть много всего, выносим assert в глобальную область &ndash;&gt;-->
+    <!--<script>-->
+        <!--var assert = chai.assert;-->
+    <!--</script>-->
+
+
+</head>
+<body>
+
+<script>
+    'use strict';
+    //    var min = +prompt("input a minimum", '1');
+    //    var max = +prompt("input a maximum", '1');
+    //    var counter1 = 0;
+    //    var counter2 = 0;
+    //    var counter3 = 0;
+    //
+    //    for (var i = 0; i < 10000; i++){
+    //        var rand = randomInt(1, 3);
+    //        switch(rand){
+    //            case 1 : counter1++;
+    //                break;
+    //            case 2 : counter2++;
+    //                break;
+    //            case 3 : counter3++;
+    //                break;
+    //        }
+    //    }
+    //    alert("1 = " + counter1 + " \n 2 = " + counter2 + " \n 3 = " + counter3);
+
+    function CleverCalc(){
+        var a = 0;
+        var b = 0;
+        var sign = "";
+        var methods = {};
+
+         methods["+"] = function(a, b){
+            return a + b;
+        };
+         methods["-"] = function(a, b){
+            return a - b;
+        };
+
+        function parseExpression2 (exp) {
+            a = + exp.slice(0, exp.indexOf(" "));
+            b = + exp.slice(exp.lastIndexOf(" "));
+            sign = exp.slice(exp.indexOf(" ") + 1, exp.lastIndexOf(" "));
+        }
+
+        function parseExpression (exp) {
+            var split = exp.split(" ");
+            a = + split[0];
+            sign = split[1];
+            b = + split[2];
+        }
+
+        this.calculate = function(exp){
+            parseExpression(exp);
+
+            if(!(sign in methods)){
+                return "syntax error, do not known operation '" + this.operation + "'";
+            } else if(isNaN(a) || isNaN(b)){
+                return NaN;
+            } else {}
+            return methods[sign](a, b);
+        };
+
+
+        this.addMethod = function(sign, func){
+            methods[sign] = func;
+        };
+    }
+
+    var calc = new CleverCalc();
+
+    alert(calc.calculate("12 + 2"));
+    alert(calc.calculate("12 / 2"));
+    calc.addMethod("/", function(a, b){
+        return a/b;
+    });
+
+    alert(calc.calculate("12 / 2"));
+
+    function Accumulator(num){
+        this.value = num || 0;
+        this.read = function(){
+            this.value += +prompt("add","0");
+        }
+    }
+
+    function Calculator(){
+        var a = 0;
+        var b = 0;
+
+        this.read = function(){
+            a = +prompt("a", "0");
+            b = +prompt("b", "0");
+        };
+
+        this.sum = function(){
+            return ( a + b );
+        };
+
+        this.mul = function(){
+            return ( a * b );
+        };
+    }
+
+    var calculator2 = new Calculator();
+    calculator.read();
+
+    alert( "Сумма=" + calculator.sum() );
+    alert( "Произведение=" + calculator.mul() );
+
+    function sumLink(num){
+        var sum = num;
+
+        function f(num2){
+            sum += num2;
+            return f;
+        }
+
+        f.toString = function() {
+            return sum;
+        };
+
+        return f;
+    }
+
+//    alert(sumLink(10)(5)(-2));
+
+    var ladder = {
+        step: 0,
+        up: function() { // вверх по лестнице
+            this.step++;
+            return this;
+        },
+        down: function() { // вниз по лестнице
+            this.step--;
+            return this;
+        },
+        showStep: function() { // вывести текущую ступеньку
+            alert( this.step );
+            return this;
+        }
+    };
+
+
+    var calculator = {
+        firstNum: 0,
+        secondNum: 0,
+        read: function() {
+            this.firstNum = +prompt("Ведите первое число", '0');
+            this.secondNum = +prompt("Введите второе число", '0');
+        },
+        sum: function() {
+            return this.firstNum + this.secondNum;
+        },
+        mul: function() {
+            return this.firstNum * this.secondNum;
+        }
+    };
+
+    function makeArmy() {
+        var shooters = [];
+
+        function makeShooter(number){
+            var n = number;
+            function shooter(){
+                alert(n);
+            }
+            return shooter;
+        }
+
+        for (var i = 0; i < 10; i++) {
+
+            var shooter = makeShooter(i);
+
+            shooters.push(shooter);
+        }
+
+        return shooters;
+    }
+
+
+
+    function filter(arr, func){
+        return arr.filter(func);
+    }
+
+    function inBetween(a,b) {
+        return function(number){
+            return (number >= a) && (number <= b);
+        }
+    }
+
+    function inArray(arr) {
+        return function(number){
+            return arr.indexOf(number) != -1 ;
+        }
+    }
+
+
+
+    function byField(field) {
+        return new Function( "a", "b", "return (a." + field + " > b." + field + ") ? 1 : -1;" );
+    }
+
+    function byField2(field) {
+        return function(a, b) {
+            return a[field] > b[field] ? 1 : -1;
+        }
+    }
+
+    function makeBuffer() {
+        var text = '';
+
+        function buffer(part) {
+            if (arguments.length == 0) {
+                return text;
+            } else text += part;
+        }
+
+        buffer.clear = function () {
+            text = '';
+        };
+        return buffer
+    }
+
+    function sum(a) {
+        return function (b) {
+            return a + b;
+        }
+    }
+
+    function formatDate(date) {
+        var dd = date.getDate();
+        if (dd < 10) dd = "0" + dd;
+        var mm = date.getMonth();
+        if (mm < 10) mm = "0" + mm;
+        var yy = date.getFullYear() % 100;
+        if (yy < 10) yy = "0" + yy;
+        return dd + "." + mm + "." + yy;
+    }
+
+    function getSecondsToday() {
+        var date = new Date();
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var sec = date.getSeconds();
+
+        return sec + (minutes * 60) + (hours * 3600);
+    }
+
+    function getDateAgo(date, days) {
+        var dateCopy = new Date(date);
+        var d = dateCopy.setDate(dateCopy.getDate() - days);
+        return new Date(d);
+    }
+
+    function sumOfArgs() {
+        var sum = 0;
+        for (var i = 0; i < arguments.length; i++) {
+            sum += arguments[i];
+        }
+        return sum;
+    }
+
+
+    function camelise(str) {
+        var words = str.split("_");
+
+        for (var i = 1; i < words.length; i++) {
+            words[i] = words[i][0].toUpperCase() + words[i].slice(1);
+        }
+        return words.join("");
+    }
+
+    //    alert(camelise("hello__frt_rtrrt"));
+
+
+    var maxSubArr = {
+        startIndex: 0,
+        endIndex: 0,
+        value: 0
+    };
+    function getMaxSubSum(arr) {
+
+
+        for (var i = 0; i < arr.length; i++) {
+            var sum = 0;
+            for (var j = i; j < arr.length; j++) {
+                sum += arr[j];
+                if (sum > maxSubArr.value) {
+                    maxSubArr.value = sum;
+                    maxSubArr.startIndex = i;
+                    maxSubArr.endIndex = j;
+                }
+            }
+        }
+        return maxSubArr;
+    }
+    getMaxSubSum([-5, 1, 2, 3, 4, -10, 11]);
+    //    alert(" start = " + maxSubArr.startIndex + "\n end = " + maxSubArr.endIndex + "\n value = " +maxSubArr.value);
+
+
+    function firstCharToUpperCase(str) {
+        var firstChar = str.slice(0, 1);
+        var otherPart = str.slice(1);
+        return firstChar.toUpperCase() + otherPart;
+    }
+
+    function random0max(min, max) {
+
+        return min + ( Math.random() * ( max - min ) );
+    }
+
+    function randomInt(min, max) {
+        var r = min + ( Math.random() * ( max - min + 1 ) );
+        return Math.floor(r);
+    }
+
+    function factorial(n) {
+        if (n >= 2) {
+            n = n * factorial(n - 1);
+        }
+        return n;
+    }
+
+</script>
+
+<!--<script src="factorialTest.js"></script>-->
+
+<!--<div id="mocha"></div>-->
+
+<!--<script> mocha.run() </script>-->
+
+</body>
+</html>
