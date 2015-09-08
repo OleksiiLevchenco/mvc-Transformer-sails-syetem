@@ -40,7 +40,7 @@ public class Shop {
     @Column(name = "working_time")
     private String workingTime;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.REMOVE) //todo: Вопрос
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shop", cascade = CascadeType.REMOVE)
     private List<Employee> employeeList = new ArrayList<>(0);
 
     public Integer getId() {

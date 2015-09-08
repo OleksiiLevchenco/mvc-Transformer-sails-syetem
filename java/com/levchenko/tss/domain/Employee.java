@@ -20,7 +20,7 @@ public class Employee {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY) //todo: Вопрос Lazy!
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shop", nullable = false) //
     private Shop shop;
 
