@@ -30,14 +30,8 @@
     text-decoration: none;
 }
 
-thead {
-    background: #ccf
-}
-thead tr{
-    background-color: #DFDFDF;
-}
-
 table{
+    background-color: #DFDFDF;
     border-style:none;
     font-family: Arial, Helvetica, sans-serif;
     width: 100%;
@@ -50,18 +44,15 @@ tr{
     font-size: 18px;
 }
 
-/*th{*/
-    /*padding-left: 10px;*/
-    /*width:170px;*/
-    /*vertical-align: middle;*/
-    /*margin-left: 20px;*/
+th{
+    padding-left: 10px;
+    width:170px;
+    vertical-align: middle;
+}
 
-/*}*/
-
-/*td{*/
-    /*padding-left: 10px;*/
-    /*width: 170px;*/
-/*}*/
+td{
+    padding-left: 10px;
+}
 
 h1{
     font-family: Helvetica, Georgia, Verdana, Arial, sans-serif;
@@ -82,13 +73,17 @@ button{
     text-decoration: none;
     color: inherit;
 }
-.button-cell {
+.button-column {
     width: auto;
 }
-.button-cell button{
-    width: 100%;
+.button-column button{
+    /*width: auto;*/
     margin: 0;
     padding-left: 12px;
     padding-right: 12px;
+}
+
+form th {
+    text-align: right;
 }
 

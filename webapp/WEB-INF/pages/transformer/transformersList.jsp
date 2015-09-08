@@ -10,14 +10,14 @@
 
 <body>
 
+<jsp:include page="../fragments/header.jsp"/>
+
+
 <c:if test="${not empty msg}">
     <div class="${css}">
         <strong>${msg}</strong>
     </div>
 </c:if>
-
-
-<jsp:include page="../fragments/header.jsp"/>
 
 <c:url var="addUrl" value="/transformers/add"/>
 <table>
@@ -48,17 +48,17 @@
             <td>${transformer.mass}</td>
             <td>${transformer.price}</td>
 
-            <td class="button-cell">
+            <td class="button-column">
                 <form action="${show}" method="get">
                     <button>Show</button>
                 </form>
             </td>
-            <td class="button-cell">
+            <td class="button-column">
                 <form action="${editUrl}" method="get">
                     <button>Edit</button>
                 </form>
             </td>
-            <td class="button-cell">
+            <td class="button-column">
                 <form action="${deleteUrl}" method="get">
                     <button>Delete</button>
                 </form>

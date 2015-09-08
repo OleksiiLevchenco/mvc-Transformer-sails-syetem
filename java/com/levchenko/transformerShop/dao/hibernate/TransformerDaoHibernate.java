@@ -3,6 +3,7 @@ package com.levchenko.transformerShop.dao.hibernate;
 
 import com.levchenko.transformerShop.dao.TransformerDao;
 import com.levchenko.transformerShop.domain.Transformer;
+import org.hibernate.Hibernate;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -42,7 +43,7 @@ public class TransformerDaoHibernate implements TransformerDao {
     @Override
     public Transformer getById(Integer id) {
         Transformer transformer = (Transformer) sessionFactory.getCurrentSession().load(Transformer.class, id);
-        System.out.println(transformer); // if delete it go to org.hibernate.LazyInitializationException: could not initialize proxy - no Session
+        Hibernate.initialize(transformer);
         return transformer;
     }
 

@@ -49,7 +49,7 @@
             <td>${shop.tel}</td>
             <td>${shop.workingTime}</td>
 
-            <td class="button-cell">
+            <td class="button-column">
                 <form action="${showUrl}" method="get">
                     <button>Details</button>
                 </form>

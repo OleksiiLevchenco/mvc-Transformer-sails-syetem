@@ -29,29 +29,29 @@
 
         <c:if test="${not empty shopAttribute.id}">
             <tr>
-                <td><springForm:label path="id"> id </springForm:label></td>
+                <th><springForm:label path="id"> id </springForm:label></th>
                 <td><form:input path="id" readonly="true" /></td>
             </tr>
         </c:if>
 
         <tr>
-            <td><springForm:label path="name">Name</springForm:label></td>
+            <th><springForm:label path="name">Name</springForm:label></th>
             <td><springForm:input path="name"/></td>
             <td><springForm:errors path="name" cssClass="error"/></td>
         </tr>
 
         <tr>
-            <td><springForm:label path="address">Address</springForm:label></td>
+            <th><springForm:label path="address">Address</springForm:label></th>
             <td><springForm:input path="address" /></td>
             <td><springForm:errors path="address" cssClass="error"/></td>
         </tr>
         <tr>
-            <td><springForm:label path="tel">Tel</springForm:label></td>
+            <th><springForm:label path="tel">Tel</springForm:label></th>
             <td><springForm:input path="tel"/></td>
             <td ><springForm:errors path="tel" cssClass="error"/></td>
         </tr>
         <tr>
-            <td><springForm:label path="workingTime">Working time</springForm:label></td>
+            <th><springForm:label path="workingTime">Working time</springForm:label></th>
             <td><springForm:input path="workingTime"/></td>
             <td ><springForm:errors path="workingTime" cssClass="error"/></td>
         </tr>

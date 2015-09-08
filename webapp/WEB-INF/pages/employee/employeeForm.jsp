@@ -7,7 +7,7 @@
 <html>
 <head>
     <title>Employee</title>
-    <link href="<c:url value="${pageContext.request.contextPath}/resources/css/style.css" />" rel="stylesheet">
+    <%--<link href="<c:url value="${pageContext.request.contextPath}/resources/css/style.css" />" rel="stylesheet">--%>
 </head>
 
 <body>

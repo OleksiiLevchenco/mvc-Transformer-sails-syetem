@@ -63,13 +63,13 @@
             <c:if test="${empty shopId}">
                 <td>${employee.shop.id}</td>
             </c:if>
-            <td class="button-cell"><a href="${showUtl}">
+            <td class="button-column"><a href="${showUtl}">
                 <button>Show details</button>
             </a></td>
-            <td class="button-cell"><a href="${editUrl}">
+            <td class="button-column"><a href="${editUrl}">
                 <button>Edit</button>
             </a></td>
-            <td class="button-cell"><a href="${deleteUrl}">
+            <td class="button-column"><a href="${deleteUrl}">
                 <button>Delete</button>
             </a></td>
             <td>

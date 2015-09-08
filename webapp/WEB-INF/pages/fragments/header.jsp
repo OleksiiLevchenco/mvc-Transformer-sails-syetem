@@ -4,9 +4,8 @@
 
 <head>
     <title>Spring MVC Form Handling Example</title>
-    <link href="../../../resources/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <spring:url value="/resources/css/style.css" var="coreCss"/>
-    <link href="${coreCss}" rel="stylesheet"/>
+    <link href="${pageContext.request.contextPath}/resources/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/resources/css/style.css" rel="stylesheet"/>
 
 
 
@@ -25,7 +24,7 @@
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse">
+            <div class="navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li <%--class="active"--%>><a href="${shopListUrl}">All shops</a></li>
                     <li><a href="${transformerListUrl}">Transformers catalog</a></li>
