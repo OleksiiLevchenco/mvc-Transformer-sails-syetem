@@ -45,7 +45,6 @@ public class ShopController {
     @RequestMapping(value = "", method = RequestMethod.POST)
     public String saveOrUpdateShop(@ModelAttribute("shopAttribute") @Valid Shop shop,
                                    BindingResult bindingResult,
-                                   Model model,
                                    final RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return SHOP_FORM;
@@ -101,14 +100,15 @@ public class ShopController {
 
         request.setAttribute("ex", ex);
 
-        return "forward:/caseDeletingShopWithEmployeesException";
+        return "forward:/shops/caseDeletingShopWithEmployeesException";
     }
     @RequestMapping(value = "/caseDeletingShopWithEmployeesException", method = RequestMethod.GET)
-    public String caseDeletingShopWithEmployeesException( HttpServletRequest request,
-                         RedirectAttributes redirectAttributes) {
+    public String caseDeletingShopWithEmployeesException( HttpServletRequest request, RedirectAttributes redirectAttributes) {
+
         final DeletingShopWithEmployeesException ex = (DeletingShopWithEmployeesException) request.getAttribute("ex");
         redirectAttributes.addFlashAttribute("css", "warning");
         redirectAttributes.addFlashAttribute("msg", ex.getErrMsg());
+
         return SHOP_REDIRECT + ex.getShopId();
     }
 
